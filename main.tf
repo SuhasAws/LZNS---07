@@ -13,71 +13,71 @@ provider "azurerm" {
   }
 }
 module "contos" {
-    source = "./contos"
+    source = "./modules/contos"
     managementgroup = var.managementgroup
     
 }
 module "decom" {
-    source = "./contos/decom"
+    source = "./modules/contos/decom"
     childgroupA0 =var.childgroupA0
     managementgroup-parent-ID = module.contos.managementgroup-parent-ID
 }
 module "platform" {
-    source = "./contos/platform"
+    source = "./modules/contos/platform"
     childgroupB0 = var.childgroupB0
     managementgroup-parent-ID = module.contos.managementgroup-parent-ID
     
 }
 module "connectivity" {
-    source = "./contos/platform/connectivity"
+    source = "./modules/contos/platform/connectivity"
     childgroupB1 = var.childgroupB1
     childgroupB0-ID = module.platform.childgroupB0-ID
     
 }
 module "identity" {
-    source = "./contos/platform/identity"
+    source = "./modules/contos/platform/identity"
     childgroupB3 = var.childgroupB3
     childgroupB0-ID = module.platform.childgroupB0-ID
 }
 module "management" {
-    source = "./contos/platform/management"
+    source = "./modules/contos/platform/management"
     childgroupB2 = var.childgroupB2
     childgroupB0-ID = module.platform.childgroupB0-ID
     
 }
 module "sandbox" {
-    source = "./contos/sandbox"
+    source = "./modules/contos/sandbox"
     childgroupC0 = var.childgroupC0
     managementgroup-parent-ID = module.contos.managementgroup-parent-ID
     
 }
 module "workloads" {
-    source = "./contos/workloads"
+    source = "./modules/contos/workloads"
     childgroupD0 = var.childgroupD0
     managementgroup-parent-ID = module.contos.managementgroup-parent-ID
     
 }
 module "businessunit1" {
-    source = "./contos/workloads/bs1"
+    source = "./modules/contos/workloads/bs1"
     childgroupD1 = var.childgroupD1
     childgroupD0-ID = module.workloads.childgroupD0-ID
     
 }
 module "businessunit2" {
-    source = "./contos/workloads/bs2"
+    source = "./modules/contos/workloads/bs2"
     childgroupD2 = var.childgroupD2
     childgroupD0-ID = module.workloads.childgroupD0-ID
     
 }
 
 module "resource-group" {
-    source = "./modules/ResourceGroup"
+    source = "./modules/contos/platform/connectivity/ResourceGroup"
     resource-group-name = var.resource-group-name
     location = var.location
 }
 
 module "vnet" {
-    source = "./modules/ConnectivityServices/VirtualNetwork"
+    source = "./modules/contos/platform/connectivity/Networking/ConnectivityServices/VirtualNetwork"
     vnet-name = var.vnet-name
     vnet-address-space = var.vnet-address-space
     resource-group-name = module.resource-group.resource-group-name
@@ -88,7 +88,7 @@ module "vnet" {
 }
 
 module "pip" {
-    source = "./modules/ApplicationServices/LoadBalancer"
+    source = "./modules/contos/platform/connectivity/Networking/ApplicationServices/LoadBalancer"
     resource-group-name = module.resource-group.resource-group-name
     pip-name            = var.pip-name
     location            = module.resource-group.location
@@ -115,7 +115,7 @@ module "pip" {
 }
 
 module "APGWSUBNT" {
-    source = "./modules/ApplicationServices/ApplicationGateway"
+    source = "./modules/contos/platform/connectivity/Networking/ApplicationServices/ApplicationGateway"
     resource-group-name = module.resource-group.resource-group-name
     location = module.resource-group.location
     vnet-name = module.vnet.vnet-name
@@ -178,7 +178,7 @@ module "APGWSUBNT" {
 }
 
 module "BSTN-SB1" {
-  source = "./modules/ConnectivityServices/Bastion"
+  source = "./modules/contos/platform/connectivity/Networking/ConnectivityServices/Bastion"
     resource-group-name = module.resource-group.resource-group-name
     location = module.resource-group.location
     vnet-name = module.vnet.vnet-name
@@ -192,13 +192,13 @@ module "BSTN-SB1" {
 }
 
 module "resource-group2" {
-    source = "./modules/ResourceGroup2"
+    source = "./modules/contos/platform/connectivity/ResourceGroup2"
     resource-group2-name = var.resource-group2-name
     location2 = var.location2
 }
 
 module "vnet2" {
-    source = "./modules/ConnectivityServices/VirtualNetwork2"
+    source = "./modules/contos/platform/connectivity/Networking/ConnectivityServices/VirtualNetwork2"
     vnet2-name = var.vnet2-name
     vnet2-address-space = var.vnet2-address-space
     resource-group2-name = module.resource-group2.resource-group2-name
@@ -209,7 +209,7 @@ module "vnet2" {
 }
 
 module "Nat-SB" {
-  source = "./modules/ConnectivityServices/NAT"
+  source = "./modules/contos/platform/connectivity/Networking/ConnectivityServices/NAT"
     resource-group2-name = module.resource-group2.resource-group2-name
     location2 = module.resource-group2.location2
     vnet2-name = module.vnet2.vnet2-name
@@ -223,7 +223,7 @@ module "Nat-SB" {
 }
 
 module "TF-PIP" {
-  source = "./modules/ApplicationServices/TrafficManager"
+  source = "./modules/contos/platform/connectivity/Networking/ApplicationServices/TrafficManager"
   resource-group2-name = module.resource-group2.resource-group2-name
   location2 = module.resource-group2.location2
   TF-PIP-name = var.TF-PIP-name
@@ -244,7 +244,7 @@ module "TF-PIP" {
 }
 
 module "PTS-sb" {
-  source = "./modules/ConnectivityServices/PointToSiteVpn"
+  source = "./modules/contos/platform/connectivity/Networking/ConnectivityServices/PointToSiteVpn"
   resource-group2-name = module.resource-group2.resource-group2-name
   location2 = module.resource-group2.location2
   vnet2-name = module.vnet2.vnet2-name
