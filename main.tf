@@ -78,8 +78,8 @@ module "Security" {
 
   source = "./modules/contos/platform/connectivity/security"
 
-  resource_group_name                   = var.resource-group-name
-  resource_group_location               = var.location
+  resource-group-name                   = var.resource-group-name
+  resource-group-location               = var.location
   key_vault_name                        = var.key_vault_name
   soft_delete_retention_days            = var.soft_delete_retention_days
   purge_protection_enabled              = var.purge_protection_enabled
