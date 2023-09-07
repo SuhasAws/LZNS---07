@@ -9,6 +9,29 @@ childgroupD0    = "workloads"
 childgroupD1    = "bs1"
 childgroupD2    = "bs2"
 
+
+ key_vault_name   = "varssskeyvault"
+  soft_delete_retention_days    = 7
+  purge_protection_enabled   = false
+  sku_name    = "standard"
+  key_permissions   =["Get",]
+  secret_permissions  = [
+      "Get", "Backup", "Delete", "List", "Purge", "Recover", "Restore", "Set",
+    ]
+  storage_permissions =  [
+      "Get",
+    ]
+
+ secret1_name    = "clientID"
+ secret1_value  = "246dd74b-338f-47b6-9438-87ae8bd99a01"
+ secret2_name   = "clientsecret"
+ secret2_value  = "7Oo8Q~Wj82KG.9sjHxpyA~HlXo-~.5kd-WPK8bYz"
+ secret3_name = "tenantID"
+ secret3_value  = "47d7e33c-9155-404f-914e-6610aa428fcc"
+ secret4_name   = "subscriptionID"
+ secret4_value = "91e9f238-396d-4de8-b851-c0465f790b4a"
+ object_id = "bdaf7280-c69f-4d52-89dd-a0631103d277"
+
 resource-group-name = "RG11"
 location = "South Central US"
 vnet-name = "Vnet1"

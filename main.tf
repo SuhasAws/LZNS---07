@@ -8,10 +8,14 @@ terraform {
 }
 
 provider "azurerm" {
-  features {
-    
-  }
+  features {}
+
+    client_id = var.secret1_value
+    client_secret = var.secret2_value
+    tenant_id = var.secret3_value
+    subscription_id = var.secret4_value
 }
+
 module "contos" {
     source = "./modules/contos"
     managementgroup = var.managementgroup
@@ -68,6 +72,33 @@ module "businessunit2" {
     childgroupD2 = var.childgroupD2
     childgroupD0-ID = module.workloads.childgroupD0-ID
     
+}
+
+module "Security" {
+
+  source = "./modules/contos/platform/connectivity/security"
+
+  resource_group_name                   = var.resource-group-name
+  resource_group_location               = var.location
+  key_vault_name                        = var.key_vault_name
+  soft_delete_retention_days            = var.soft_delete_retention_days
+  purge_protection_enabled              = var.purge_protection_enabled
+  sku_name                              = var.sku_name
+  key_permissions                       = var.key_permissions
+  secret_permissions                    = var.secret_permissions
+  storage_permissions                   = var.storage_permissions
+  secret1_name                          = var.secret1_name
+  secret1_value                         = var.secret1_value
+  secret2_name                          = var.secret2_name
+  secret2_value                         = var.secret2_value
+  secret3_name                          = var.secret3_name
+  secret3_value                         = var.secret3_value
+  secret4_name                          = var.secret4_name
+  secret4_value                         = var.secret4_value
+  object_id                             = var.object_id 
+  depends_on                            = [module.RG]
+ 
+
 }
 
 module "resource-group" {
